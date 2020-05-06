@@ -1,0 +1,53 @@
+#!/bin/bash
+ 
+#Check for running as root
+if [ $UID -eq 0 ]
+then
+    echo "Don't run this as root, ya ding dong!"
+    exit
+fi
+files=('/etc/passwd' '/etc/shadow' '/etc/hosts')
+output=$HOME/research_3/sys_info.txt
+ip=$(ifconfig |grep -B 2 inet)
+suids=$(find / -type f -perm /4000 2> /dev/null)
+ 
+#Check for exxistence of research_3 directory
+if [ ! -d $HOME/research_3 ]
+then
+    mkdir $HOME/research_3
+fi
+ 
+#check for output file; Clear if needed
+if [ -f $output ]
+then
+    > $output
+fi
+#25
+echo "A Quick System Audit Script" >> $output
+ 
+date >> $output
+ 
+echo -e "Machine Type Info:\n$MACHTYPE" >> $output
+ 
+echo -e "Uname Info: $(uname -a)\n" >> $output
+ 
+echo -e "IP Info: $(ifconfig |grep -B 2 inet)\n" >> $output
+ 
+echo -e "Hostname: $(hostname)" >> $output
+ 
+echo -e "DNS Servers: \n$cat /etc/resolv.conf)" >> $output
+ 
+echo -e "Memory Info: /n$(free)" >> $output
+#41
+echo -e "\nCPU Info: " >> $output
+lscpu |grep CPU
+ 
+echo -e "\nDisk Usage : \n$(df -H |head -2" >> $output
+ 
+echo -e "\nWho is logged in \n$(who -a)" >> $output
+ 
+echo -e " \nThe permissions for sensitive /etc files: \n" >> $output
+for file in ${files[@]};
+do
+ls -l $file >> $output
+done
