@@ -92,7 +92,7 @@ In order to use the playbook, you will need to have an Ansible control node alre
 
 SSH into the control node and follow the steps below:
 - Copy the filebeat-playbook.yml file to the docker container that has ansible installed.
-    - Make sure to update filebeat.yml config file in order to allow access to Kibana and elastic stack
+    - Make sure to update filebeat.yml config file in order to allow access to Kibana and elastic stack. (Confirm IP addresses for elasticsearch (line 1106) and Kibana (line 1806).
 - Update etc/ansible/hosts file to make sure webservers you want to install filebeat on are listed under the correct heading in hosts file.
 - Update the ansible hosts file to include IP Addresses for DVWA-VM, DVWA-VM2
 - Run the playbook, and navigate to http://40.71.19.187:5601/ to check that the installation worked as expected.
